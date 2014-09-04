@@ -1,6 +1,7 @@
 package org.xpect.xtext.lib.setup;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -16,6 +17,8 @@ import org.xpect.XpectRequiredEnvironment;
 import org.xpect.setup.XpectSetupFactory;
 import org.xpect.state.Creates;
 import org.xpect.state.Invalidates;
+import org.xpect.xtext.lib.setup.workspace.File;
+import org.xpect.xtext.lib.setup.workspace.Project;
 import org.xpect.xtext.lib.setup.workspace.Workspace;
 import org.xpect.xtext.lib.setup.workspace.Workspace.Instance;
 import org.xpect.xtext.lib.setup.workspace.WorkspaceDefaultsSetup;
@@ -85,6 +88,8 @@ public class XtextWorkspaceSetup {
 
 	@Creates(ThisResource.class)
 	public XtextResource createThisResource() throws IOException, CoreException {
+		List<Project> projects = workspaceConfig.getMembers(Project.class);
+		List<File> files = projects.get(0).getMembers(File.class);
 		Instance instance = getInstance();
 		IFile file = instance.getThisFile();
 		URI uri = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
